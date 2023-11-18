@@ -8,7 +8,7 @@ def red_line(rm, downtown_crossing):
     rl.station("South", "rd")
     rl.stations("Broadway", "Andrew", "JFK/UMass", direction="d", loc="r")
 
-    jfk_umass = rl.segment("d")
+    south_split = rl.segment("d")
 
     rl.grid(0.5)
     rl.station("Savin Hill", "dl", loc="l")
@@ -30,7 +30,7 @@ def red_line(rm, downtown_crossing):
 
     rl.station("Mattapan", "l", kind="major", loc="l", ang=0)
 
-    rl.goto(jfk_umass)
+    rl.goto(south_split)
     rl.stations(
         "North Quincy",
         "Wollaston",
@@ -52,10 +52,10 @@ def red_line(rm, downtown_crossing):
         "Central",
         "Harvard",
         direction="lu",
-        loc="ld",
+        loc="l",
     )
 
-    rl.station("Porter", "lu", loc="ur")
+    rl.station("Porter", "lu", loc="u")
 
     rl.station("Davis", "l", loc="u", ang=0)
 
@@ -67,9 +67,9 @@ def red_line(rm, downtown_crossing):
 def orange_line(rm, downtown_crossing):
     ol = rm.line(downtown_crossing, "#b62", "Orange Line")
 
-    state = ol.station("State", "ur")
+    state = ol.station("State", "ur", loc="r")
     haymarket = ol.station("Haymarket", "uu", loc="r")
-    north = ol.station("North", "u")
+    north = ol.station("North", "u", loc="r")
 
     ol.station("Community College", "uu")
     ol.grid(0.5)
@@ -97,7 +97,7 @@ def orange_line(rm, downtown_crossing):
 
 
 def green_line(rm, park, haymarket, north):
-    gl = rm.line(park, "#446138", "Green Line")
+    gl = rm.line(park, "#395d39", "Green Line")
 
     govt_center = gl.station("Gov't\nCenter", "ur", loc="l")
 
@@ -108,7 +108,7 @@ def green_line(rm, park, haymarket, north):
 
     gl.grid(0.5)
 
-    gl.stations("Science Park/West End", direction="ul")
+    gl.stations("Science Park/West End", direction="ul", loc="l")
     gl.stations("Lechmere", direction="ul")
 
     union_square_junction = gl.segment("ul")
@@ -119,7 +119,7 @@ def green_line(rm, park, haymarket, north):
     gl.station("Union Sq", "l", kind="major", loc="l")
 
     gl.goto(park)
-    gl.station("Boylston", "ld", loc="dl")
+    gl.station("Boylston", "ld", loc="d", ang=0)
     _, copley, _, kenmore = gl.stations(
         "Arlington",
         "Copley",
@@ -137,7 +137,7 @@ def green_line(rm, park, haymarket, north):
     gl.stations(
         "Northeastern",
         "MFA",
-        "Longwood Medical Area",
+        "Longwood Medical",
         "Brigham Circle",
         "Fenwood Rd",
         "Mission Park",
