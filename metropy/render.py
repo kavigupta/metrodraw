@@ -5,9 +5,9 @@ from metropy.utils.data_linewidth_plot import data_linewidth_plot
 
 class Renderer:
     def __init__(self, dpi=200, lw=0.2, font_size=4, black="black", white="white"):
-        self.fig = plt.figure(dpi=dpi, facecolor=white)
-        self.ax = plt.gca()
         self.lw = lw
+        self.dpi = dpi
+        self.ax = None
         self.font_size = font_size
         self.black = black
         self.white = white
@@ -71,7 +71,7 @@ class Renderer:
         # draw station name
         loc = label.loc  # one of l, r, u, d, ul, ur, dl, dr
 
-        loc_new = Coord(x, y).move(loc, length=r * 2)
+        loc_new = Coord(x, y).move(loc, length=r * 3)
 
         loc = "".join(sorted(loc))  # normalize
 
@@ -97,16 +97,20 @@ class Renderer:
         )
 
     def railmap(self, railmap):
+        xlow, xhigh, ylow, yhigh = railmap.bounds(self.coord_config, 1)
+
+        size = xhigh - xlow, yhigh - ylow
+        plt.figure(dpi=self.dpi, facecolor=self.white, figsize=size)
+        self.ax = plt.gca()
+
         for line in railmap.lines:
             self.line(line)
         for station in set(railmap.stations):
             self.station(station)
         for coord, station in railmap.interlining_stations:
             self.interlining(coord, station)
-        xlow, xhigh, ylow, yhigh = railmap.bounds(self.coord_config, 1)
 
-        self.fig.set_size_inches(xhigh - xlow, yhigh - ylow)
+        self.ax.axis("square")
+        self.ax.axis("off")
         self.ax.set_xlim(xlow, xhigh)
         self.ax.set_ylim(ylow, yhigh)
-        self.ax.axis("equal")
-        self.ax.axis("off")
