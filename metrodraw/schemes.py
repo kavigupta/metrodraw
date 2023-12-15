@@ -28,6 +28,7 @@ class MBTA(Scheme):
             "orange": "#f7941e",
             "green": "#009867",
             "blue": "#1b91d1",
+            "purple": "#8c4799",
             "white": "#ffffff",
             "black": "#000000",
         }[color_name]
@@ -46,6 +47,7 @@ class Retro(Scheme):
             "orange": "#b62",
             "green": "#395d39",
             "blue": "#3d447d",
+            "purple": "#5d395d",
             "white": "#e8dacf",
             "black": "#000000",
         }[color_name]
@@ -64,6 +66,7 @@ class Terminal(Scheme):
             "orange": "#ff8a00",
             "green": "#00ff00",
             "blue": "#0000ff",
+            "purple": "#ff00ff",
             "white": "#000000",
             "black": "#ffffff",
         }[color_name]
