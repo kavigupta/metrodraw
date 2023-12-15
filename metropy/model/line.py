@@ -3,9 +3,10 @@ from metropy.model.station import make_station
 
 
 class LineSegment:
-    def __init__(self, start, end):
+    def __init__(self, start, end, label):
         self.start = start
         self.end = end
+        self.label = label
 
     def coords(self, config):
         return [self.start.get_x(config), self.end.get_x(config)], [
@@ -28,19 +29,28 @@ class Line:
     def stations(self, *names, **kwargs):
         return [self.station(name, **kwargs) for name in names]
 
-    def segment(self, direction):
+    def segment(self, direction, label=None):
         coord = self.last
         original = self.segment_basis
         coord = coord.move(direction, scale=self.grid_size)
         self.goto(coord)
         coord = self.with_interlining(coord)
-        self.segments.append(LineSegment(original, coord))
+        self.segments.append(LineSegment(original, coord, label))
         self.railmap.add_neighboring(original, coord)
         return coord
 
-    def station(self, name, direction=None, *, loc=None, ang=None, kind="basic"):
+    def station(
+        self,
+        name,
+        direction=None,
+        *,
+        loc=None,
+        ang=None,
+        kind="basic",
+        segment_label=None
+    ):
         if direction is not None:
-            self.segment(direction)
+            self.segment(direction, segment_label)
         station_loc = self.with_interlining(self.last)
         self.railmap.add_station(
             make_station(station_loc, name, loc, ang=ang, kind=kind)

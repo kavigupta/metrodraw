@@ -1,17 +1,33 @@
 from matplotlib import pyplot as plt
+import numpy as np
 from metropy.model.coord import Coord
 from metropy.utils.data_linewidth_plot import data_linewidth_plot
 
 
 class Renderer:
-    def __init__(self, dpi=200, lw=0.2, font_size=4, black="black", white="white"):
+    def __init__(self, scheme, dpi=200, lw=0.2, font_size=4):
         self.lw = lw
         self.dpi = dpi
         self.ax = None
         self.font_size = font_size
-        self.black = black
-        self.white = white
         self._handles = []
+        self.scheme = scheme
+        self.original_rcparams = None
+
+    def __enter__(self):
+        self.original_rcparams = {
+            k: plt.rcParams[k] for k in self.scheme.rcparams().keys()
+        }
+        for k, v in self.scheme.rcparams().items():
+            plt.rcParams[k] = v
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        del exc_type, exc_value, traceback
+        assert self.original_rcparams is not None, "Renderer.__enter__ was not called"
+        for k, v in self.original_rcparams.items():
+            plt.rcParams[k] = v
+        self.original_rcparams = None
 
     @property
     def coord_config(self):
@@ -28,9 +44,26 @@ class Renderer:
                     linewidth=self.lw,
                     solid_capstyle="round",
                     # solid_joinstyle="miter",
-                    color=line.color,
+                    color=self.scheme.get_color(line.color),
                 )
             ]
+            assert len(xs) == 2
+            assert len(ys) == 2
+
+            cx = (xs[0] + xs[1]) / 2
+            cy = (ys[0] + ys[1]) / 2
+            angle = np.rad2deg(np.arctan2(ys[1] - ys[0], xs[1] - xs[0]))
+
+            self.ax.text(
+                x=cx,
+                y=cy,
+                s=seg.label,
+                ha="center",
+                va="center",
+                rotation=angle,
+                fontsize=self.lw * 30,
+                color=self.scheme.get_color("bg"),
+            )
 
     def station(self, station, no_label=False):
         # draw circle at station
@@ -39,7 +72,13 @@ class Renderer:
         )
         r = self.lw / 2
         for i, mark in enumerate(
-            station.get_markers(x, y, r, black=self.black, white=self.white)
+            station.get_markers(
+                x,
+                y,
+                r,
+                black=self.scheme.get_color("fg"),
+                white=self.scheme.get_color("bg"),
+            )
         ):
             # bring to front
             mark.zorder = 10 + i / 10
@@ -63,7 +102,7 @@ class Renderer:
                 linewidth=self.lw / 4,
                 solid_capstyle="round",
                 # solid_joinstyle="miter",
-                color=self.white,
+                color=self.scheme.get_color("white"),
             )
         ]
 
@@ -89,18 +128,19 @@ class Renderer:
         self.ax.text(
             loc_new.x,
             loc_new.y,
-            label.name.upper(),
+            self.scheme.modify_label(label.name),
             ha=ha,
             va=va,
             rotation=label.ang,
             fontsize=font_size * self.font_size,
+            color=self.scheme.get_color("fg"),
         )
 
     def railmap(self, railmap):
         xlow, xhigh, ylow, yhigh = railmap.bounds(self.coord_config, 1)
 
         size = xhigh - xlow, yhigh - ylow
-        plt.figure(dpi=self.dpi, facecolor=self.white, figsize=size)
+        plt.figure(dpi=self.dpi, facecolor=self.scheme.get_color("bg"), figsize=size)
         self.ax = plt.gca()
 
         for line in railmap.lines:
@@ -114,3 +154,10 @@ class Renderer:
         self.ax.axis("off")
         self.ax.set_xlim(xlow, xhigh)
         self.ax.set_ylim(ylow, yhigh)
+
+
+def render(railmap, path, **kwargs):
+    with Renderer(**kwargs) as renderer:
+        renderer.railmap(railmap)
+        plt.savefig(path)
+        plt.savefig(path)

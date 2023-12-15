@@ -3,7 +3,7 @@ from metropy.model.railmap import Railmap
 
 
 def red_line(rm, downtown_crossing):
-    rl = rm.line(downtown_crossing, "#9c1f29", "Red Line")
+    rl = rm.line(downtown_crossing, "red", "Red Line")
     rl.station("Downtown Crossing")
     rl.station("South", "rd")
     rl.stations("Broadway", "Andrew", "JFK/UMass", direction="d", loc="r")
@@ -65,7 +65,7 @@ def red_line(rm, downtown_crossing):
 
 
 def orange_line(rm, downtown_crossing):
-    ol = rm.line(downtown_crossing, "#b62", "Orange Line")
+    ol = rm.line(downtown_crossing, "orange", "Orange Line")
 
     state = ol.station("State", "ur", loc="r")
     haymarket = ol.station("Haymarket", "uu", loc="r")
@@ -97,12 +97,12 @@ def orange_line(rm, downtown_crossing):
 
 
 def green_line(rm, park, haymarket, north):
-    gl = rm.line(park, "#395d39", "Green Line")
+    gl = rm.line(park, "green", "Green Line")
 
-    govt_center = gl.station("Gov't\nCenter", "ur", loc="l")
+    govt_center = gl.station("Gov't\nCenter", "ur", loc="l", segment_label="B, C, D, E")
 
     gl.interlining("l")
-    gl.segment(haymarket)
+    gl.segment(haymarket, "D, E")
     gl.segment(north)
     gl.no_interlining(keep_pos=True)
 
@@ -220,7 +220,7 @@ def green_line(rm, park, haymarket, north):
 
 
 def blue_line(rm, state, govt_center):
-    bl = rm.line(state, "#3d447d", "Blue Line")
+    bl = rm.line(state, "blue", "Blue Line")
     bl.segment(govt_center)
     bl.station("Bowdoin", "u", kind="major")
 
