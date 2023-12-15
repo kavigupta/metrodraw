@@ -1,4 +1,4 @@
-from metrodraw.model.coord import Coord
+from metrodraw.model.coord import Coord, InterliningCoord
 from metrodraw.model.station import make_station
 from .line import Line
 
@@ -16,9 +16,23 @@ class Railmap:
         return self.lines[-1]
 
     def add_station(self, station):
-        assert station.coord not in self.coord_to_station
-        self.stations.append(station)
-        self.coord_to_station[station.coord] = len(self.stations) - 1
+        print(station.coord)
+        lookup_coord = station.coord
+        if isinstance(lookup_coord, InterliningCoord):
+            lookup_coord = lookup_coord.coord
+
+        if lookup_coord in self.coord_to_station:
+            new_label = station.label
+            old_label = self.stations[self.coord_to_station[lookup_coord]].label
+            assert (
+                new_label.name == old_label.name
+            ), f"Attempted to add station {new_label.name} at {lookup_coord} but already have station {old_label.name} at that location"
+            assert (
+                new_label == old_label
+            ), f"Inconsistent station labels for {new_label.name} at {lookup_coord}: {new_label} vs {old_label}"
+        else:
+            self.stations.append(station)
+            self.coord_to_station[station.coord] = len(self.stations) - 1
 
     def add_neighboring(self, coord_a, coord_b):
         self.neighboring_coords.add((coord_a, coord_b))
