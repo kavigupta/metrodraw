@@ -25,7 +25,10 @@ class Railmap:
 
     def add_interlining(self, orig, interlined):
         self.add_neighboring(orig, interlined)
-        self.interlining_stations.append((interlined, self.station_at(orig)))
+        sa = self.station_at(orig)
+        if sa is None:
+            return
+        self.interlining_stations.append((interlined, sa))
 
     @property
     def neighboring_stations(self):
@@ -87,4 +90,6 @@ class Railmap:
         return xmin, xmax, ymin, ymax
 
     def station_at(self, coord):
+        if coord not in self.coord_to_station:
+            return None
         return self.stations[self.coord_to_station[coord]]

@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="metrodraw",
-    version="0.0.2",
+    version="0.0.3",
     author="Kavi Gupta",
     author_email="metrodraw@kavigupta.org",
     description="Allows you to create metro maps.",
