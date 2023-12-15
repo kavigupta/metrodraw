@@ -36,7 +36,7 @@ class MBTA(Scheme):
         return dict()
 
     def modify_label(self, label):
-        return label.capitalize()
+        return label.title()
 
 
 class Retro(Scheme):
