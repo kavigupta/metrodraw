@@ -31,7 +31,7 @@ class Renderer:
 
     @property
     def coord_config(self):
-        return dict(interlining_offset=self.lw)
+        return dict(interlining_offset=self.lw * 0.7)
 
     def line(self, line):
         for seg in line.segments:
