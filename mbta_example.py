@@ -1,8 +1,8 @@
-from metropy.render import render
-from metropy.schemes import MBTA, Retro, Terminal
+from metrodraw.render import render
+from metrodraw.schemes import MBTA, Retro, Terminal
 
-from metropy.model.coord import Coord
-from metropy.model.railmap import Railmap
+from metrodraw.model.coord import Coord
+from metrodraw.model.railmap import Railmap
 
 
 def red_line(rm, downtown_crossing):

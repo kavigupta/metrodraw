@@ -1,5 +1,5 @@
-from metropy.model.coord import Coord
-from metropy.model.station import make_station
+from metrodraw.model.coord import Coord
+from metrodraw.model.station import make_station
 from .line import Line
 
 

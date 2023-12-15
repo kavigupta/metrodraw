@@ -1,7 +1,7 @@
 from matplotlib import pyplot as plt
 import numpy as np
-from metropy.model.coord import Coord
-from metropy.utils.data_linewidth_plot import data_linewidth_plot
+from metrodraw.model.coord import Coord
+from metrodraw.utils.data_linewidth_plot import data_linewidth_plot
 
 
 class Renderer:

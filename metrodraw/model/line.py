@@ -1,5 +1,5 @@
-from metropy.model.coord import Coord, InterliningCoord
-from metropy.model.station import make_station
+from metrodraw.model.coord import Coord, InterliningCoord
+from metrodraw.model.station import make_station
 
 
 class LineSegment:

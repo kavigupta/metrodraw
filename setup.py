@@ -4,14 +4,14 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="metropy",
+    name="metrodraw",
     version="0.0.1",
     author="Kavi Gupta",
-    author_email="metropy@kavigupta.org",
+    author_email="metrodraw@kavigupta.org",
     description="Allows you to create metro maps.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/kavigupta/metropy",
+    url="https://github.com/kavigupta/metrodraw",
     packages=setuptools.find_packages(),
     entry_points={},
     classifiers=[
