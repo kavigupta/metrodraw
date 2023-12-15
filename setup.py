@@ -3,9 +3,12 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+with open("version.txt", "r") as fh:
+    version = fh.read().strip()
+
 setuptools.setup(
     name="metrodraw",
-    version="0.0.4",
+    version=version,
     author="Kavi Gupta",
     author_email="metrodraw@kavigupta.org",
     description="Allows you to create metro maps.",
