@@ -1,3 +1,6 @@
+from metropy.render import render
+from metropy.schemes import MBTA, Retro, Terminal
+
 from metropy.model.coord import Coord
 from metropy.model.railmap import Railmap
 
@@ -260,3 +263,8 @@ def mbta():
     rm.propagate_positioning()
 
     return rm
+
+
+render(mbta(), "eg/mbta-default.png", scheme=MBTA(), font_size=10, lw=0.25)
+render(mbta(), "eg/mbta-retro.png", scheme=Retro(), font_size=10, lw=0.25)
+render(mbta(), "eg/mbta-terminal.png", scheme=Terminal(), font_size=10, lw=0.25)
