@@ -47,7 +47,7 @@ class Line:
         loc=None,
         ang=None,
         kind="basic",
-        segment_label=None
+        segment_label=None,
     ):
         if direction is not None:
             self.segment(direction, segment_label)
@@ -64,8 +64,11 @@ class Line:
     def grid(self, size):
         self.grid_size = size
 
-    def interlining(self, direction):
+    def interlining(self, direction, when="next"):
         self._interlining = direction
+        assert when in ["now", "next"], f"Invalid when: {when}, must be now or next"
+        if when == "now":
+            self.segment_basis = self.with_interlining(self.last)
 
     def no_interlining(self, keep_pos=False):
         self._interlining = None

@@ -16,7 +16,6 @@ class Railmap:
         return self.lines[-1]
 
     def add_station(self, station):
-        print(station.coord)
         lookup_coord = station.coord
         if isinstance(lookup_coord, InterliningCoord):
             lookup_coord = lookup_coord.coord
