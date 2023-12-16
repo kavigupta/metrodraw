@@ -29,9 +29,14 @@ class Railmap:
                 new_label.name == old_label.name
             ), f"Attempted to add station {new_label.name} at {lookup_coord} but already have station {old_label.name} at that location"
             merged_label = merge_labels(new_label, old_label)
+            merged_kind = old_station.kind
+            if station.kind != old_station.kind:
+                err = f"Attempted to add station {new_label.name} at {lookup_coord} with kind {station.kind} but already have station {old_label.name} at that location with kind {old_station.kind}"
+                assert station.kind is None or old_station.kind is None, err
+                merged_kind = station.kind or old_station.kind
             self.stations[self.coord_to_station[lookup_coord]] = old_station.with_label(
                 merged_label
-            )
+            ).with_kind(merged_kind)
         else:
             self.stations.append(station)
             self.coord_to_station[lookup_coord] = len(self.stations) - 1

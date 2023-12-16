@@ -72,7 +72,7 @@ class Renderer:
         )
         r = self.lw / 2
         for i, mark in enumerate(
-            station.get_markers(
+            station.prototype.get_markers(
                 x,
                 y,
                 r,
@@ -85,7 +85,7 @@ class Renderer:
             self.ax.add_artist(mark)
 
         if not no_label:
-            self.label(x, y, r, station.font_size, station.label)
+            self.label(x, y, r, station.prototype.font_size, station.label)
 
     def interlining(self, coord, station):
         self.station(station.with_coord(coord), no_label=True)

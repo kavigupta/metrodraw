@@ -46,7 +46,7 @@ class Line:
         *,
         loc=None,
         ang=None,
-        kind="basic",
+        kind=None,
         segment_label=None,
     ):
         if direction is not None:
