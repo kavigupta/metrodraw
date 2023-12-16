@@ -19,6 +19,9 @@ class Station(ABC):
     def get_markers(self, x, y, r, black, white):
         pass
 
+    def with_label(self, label):
+        return type(self)(self.coord, label)
+
     def with_positioning(self, neighbor):
         return type(self)(
             self.coord,

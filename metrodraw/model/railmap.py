@@ -1,3 +1,4 @@
+from metrodraw.model.label import Label
 from metrodraw.model.coord import Coord, InterliningCoord
 from metrodraw.model.station import make_station
 from .line import Line
@@ -21,14 +22,16 @@ class Railmap:
             lookup_coord = lookup_coord.coord
 
         if lookup_coord in self.coord_to_station:
+            old_station = self.stations[self.coord_to_station[lookup_coord]]
             new_label = station.label
-            old_label = self.stations[self.coord_to_station[lookup_coord]].label
+            old_label = old_station.label
             assert (
                 new_label.name == old_label.name
             ), f"Attempted to add station {new_label.name} at {lookup_coord} but already have station {old_label.name} at that location"
-            assert (
-                new_label == old_label
-            ), f"Inconsistent station labels for {new_label.name} at {lookup_coord}: {new_label} vs {old_label}"
+            merged_label = merge_labels(new_label, old_label)
+            self.stations[self.coord_to_station[lookup_coord]] = old_station.with_label(
+                merged_label
+            )
         else:
             self.stations.append(station)
             self.coord_to_station[station.coord] = len(self.stations) - 1
@@ -106,3 +109,21 @@ class Railmap:
         if coord not in self.coord_to_station:
             return None
         return self.stations[self.coord_to_station[coord]]
+
+
+def merge_labels(a, b):
+    if a.name != b.name:
+        raise ValueError(f"Cannot merge labels {a.name} and {b.name}")
+    loc = a.loc if a.loc is not None else b.loc
+    if a.loc != b.loc:
+        assert (
+            a.loc is None or b.loc is None
+        ), f"Cannot merge labels with different locs: {a.loc} and {b.loc}"
+
+    ang = a.ang if a.ang is not None else b.ang
+    if a.ang != b.ang:
+        assert (
+            a.ang is None or b.ang is None
+        ), f"Cannot merge labels with different angs: {a.ang} and {b.ang}"
+
+    return Label(a.name, loc, ang)
