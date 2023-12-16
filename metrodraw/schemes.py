@@ -26,9 +26,11 @@ class MBTA(Scheme):
         return {
             "red": "#e43037",
             "orange": "#f7941e",
+            "yellow": "#fdd808",
             "green": "#009867",
             "blue": "#1b91d1",
             "purple": "#8c4799",
+            "pink": "#e27ea6",
             "white": "#ffffff",
             "black": "#000000",
         }[color_name]
@@ -45,9 +47,11 @@ class Retro(Scheme):
         return {
             "red": "#9c1f29",
             "orange": "#b62",
+            "yellow": "#d8a71f",
             "green": "#395d39",
             "blue": "#3d447d",
             "purple": "#5d395d",
+            "pink": "#d8a71f",
             "white": "#e8dacf",
             "black": "#000000",
         }[color_name]
@@ -64,9 +68,11 @@ class Terminal(Scheme):
         return {
             "red": "#ff0000",
             "orange": "#ff8a00",
+            "yellow": "#ffff00",
             "green": "#00ff00",
             "blue": "#0000ff",
             "purple": "#ff00ff",
+            "pink": "#ff00ff",
             "white": "#000000",
             "black": "#ffffff",
         }[color_name]
