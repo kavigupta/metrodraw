@@ -34,7 +34,7 @@ class Railmap:
             )
         else:
             self.stations.append(station)
-            self.coord_to_station[station.coord] = len(self.stations) - 1
+            self.coord_to_station[lookup_coord] = len(self.stations) - 1
 
     def add_neighboring(self, coord_a, coord_b):
         self.neighboring_coords.add((coord_a, coord_b))
