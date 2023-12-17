@@ -264,7 +264,10 @@ def mbta():
 
     return rm
 
+def main():
+    render(mbta(), "eg/mbta-default.png", scheme=MBTA(), font_size=10, lw=0.25)
+    render(mbta(), "eg/mbta-retro.png", scheme=Retro(), font_size=10, lw=0.25)
+    render(mbta(), "eg/mbta-terminal.png", scheme=Terminal(), font_size=10, lw=0.25)
 
-render(mbta(), "eg/mbta-default.png", scheme=MBTA(), font_size=10, lw=0.25)
-render(mbta(), "eg/mbta-retro.png", scheme=Retro(), font_size=10, lw=0.25)
-render(mbta(), "eg/mbta-terminal.png", scheme=Terminal(), font_size=10, lw=0.25)
+if __name__ == "__main__":
+    main()
