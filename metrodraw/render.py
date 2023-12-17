@@ -1,7 +1,6 @@
 import tempfile
 
 from matplotlib import pyplot as plt
-from PIL import Image
 import numpy as np
 
 from metrodraw.model.coord import Coord
@@ -168,6 +167,7 @@ def render(railmap, path, **kwargs):
 
 
 def render_to_pillow(railmap, **kwargs):
+    from PIL import Image
     with tempfile.NamedTemporaryFile(suffix=".png") as f:
         render(railmap, f.name, **kwargs)
         plt.close()
