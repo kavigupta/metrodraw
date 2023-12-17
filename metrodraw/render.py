@@ -1,5 +1,9 @@
+import tempfile
+
 from matplotlib import pyplot as plt
+from PIL import Image
 import numpy as np
+
 from metrodraw.model.coord import Coord
 from metrodraw.utils.data_linewidth_plot import data_linewidth_plot
 
@@ -161,3 +165,10 @@ def render(railmap, path, **kwargs):
         renderer.railmap(railmap)
         plt.savefig(path)
         plt.savefig(path)
+
+
+def render_to_pillow(railmap, **kwargs):
+    with tempfile.NamedTemporaryFile(suffix=".png") as f:
+        render(railmap, f.name, **kwargs)
+        plt.close()
+        return Image.open(f.name)
