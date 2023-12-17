@@ -5,7 +5,7 @@ from metrodraw.render import render_to_pillow
 from metrodraw.schemes import MBTA, Retro, Terminal
 
 
-testing = False
+testing = True
 
 schemes = [MBTA(), Retro(), Terminal()]
 

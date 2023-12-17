@@ -1,3 +1,4 @@
+import os
 import tempfile
 
 from matplotlib import pyplot as plt
@@ -168,7 +169,10 @@ def render(railmap, path, **kwargs):
 
 def render_to_pillow(railmap, **kwargs):
     from PIL import Image
-    with tempfile.NamedTemporaryFile(suffix=".png") as f:
+    with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as f:
+        f.close()
         render(railmap, f.name, **kwargs)
         plt.close()
-        return Image.open(f.name)
+        im = Image.open(f.name)
+        os.unlink(f.name)
+    return im
